@@ -1,0 +1,139 @@
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
+const int colorR = 255;
+const int colorG = 0;
+const int colorB = 0;
+const int rotdurA = 5100;
+const int rotdurB = 10200;
+const int relay = 10;
+
+#define E1 10  // Enable Pin for motor 1
+#define E2 11  // Enable Pin for motor 2
+
+#define I1 8  // Control pin 1 for motor 1
+#define I2 9  // Control pin 2 for motor 1
+#define I3 12  // Control pin 1 for motor 2
+#define I4 13  // Control pin 2 for motor 2
+#define RELAY1 7 
+
+void setup() {
+ 
+  // set up the LCD's number of columns and rows:
+    lcd.begin(16, 2);
+    lcd.setRGB(colorR, colorG, colorB);
+    
+    // Print a message to the LCD.
+    lcd.print("__Initializing__");
+    delay(2000);
+    
+    lcd.setCursor(0, 0);
+    lcd.setRGB(0 , 255, 0);
+    lcd.print("__System Ready__");
+    delay(2000);
+    
+    pinMode(RELAY1, OUTPUT);
+    pinMode(E1, OUTPUT);
+    pinMode(E2, OUTPUT);
+
+    pinMode(I1, OUTPUT);
+    pinMode(I2, OUTPUT);
+    pinMode(I3, OUTPUT);
+    pinMode(I4, OUTPUT);
+    
+}
+
+void loop() {
+
+ lcd.setCursor(0, 0);
+ lcd.print("Place Prodct Now");
+    delay(500);
+
+ lcd.setCursor(0, 0);
+ lcd.print("___Front_Shot___");
+    delay(1000);
+    
+digitalWrite(RELAY1,0);
+delay(150);                       // Wait 2 seconds
+
+digitalWrite(RELAY1,1);          // Turns Relay Off Temporarily
+
+
+// Pauses for 2 second
+    digitalWrite(E1, LOW);
+    digitalWrite(E2, LOW);
+    delay(2000);
+
+// Rotates the Disc from 0 - 90 Degrees CW
+
+    digitalWrite(E1, HIGH);
+    digitalWrite(E2, HIGH);
+
+    digitalWrite(I1, HIGH);
+    digitalWrite(I2, LOW);
+    digitalWrite(I3, HIGH);
+    digitalWrite(I4, LOW);
+    delay(rotdurA);
+
+// Pauses for 2 second
+    digitalWrite(E1, LOW);
+    digitalWrite(E2, LOW);
+    delay(1000);
+
+     lcd.setCursor(0, 0);
+ lcd.print("___Side__Shot___");
+    delay(1000);
+
+    digitalWrite(RELAY1,0);
+    delay(150);                       // Wait 2 seconds
+      digitalWrite(RELAY1,1);          // Turns Relay Off
+ 
+
+
+// Rotates the Disc by 90 - 180 Degrees CW
+    digitalWrite(E1, HIGH);
+    digitalWrite(E2, HIGH);
+
+    digitalWrite(I1, HIGH);
+    digitalWrite(I2, LOW);
+    digitalWrite(I3, HIGH);
+    digitalWrite(I4, LOW);
+    delay(rotdurA);
+
+// Pauses for 2 second
+    digitalWrite(E1, LOW);
+    digitalWrite(E2, LOW);
+    delay(2000);
+
+         lcd.setCursor(0, 0);
+ lcd.print("___Back__Shot___");
+    delay(1000);
+
+    digitalWrite(RELAY1,0);
+    delay(150);                       // Wait 2 seconds
+    digitalWrite(RELAY1,1);          // Turns Relay Off
+    
+// Rotates the Disc from 180 - 9 360 again Degrees CW
+
+         lcd.setCursor(0, 0);
+ lcd.print("_Shoot_Complete_");
+    delay(1000);
+
+    digitalWrite(E1, HIGH);
+    digitalWrite(E2, HIGH);
+
+    digitalWrite(I1, HIGH);
+    digitalWrite(I2, LOW);
+    digitalWrite(I3, HIGH);
+    digitalWrite(I4, LOW);
+    delay(rotdurB);
+
+    // Pauses for 2 second
+    digitalWrite(E1, LOW);
+    digitalWrite(E2, LOW);
+    delay(100);
+
+
+}
